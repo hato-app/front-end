@@ -14,6 +14,8 @@
 body {
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
   background-color: var(--main-background-color);
   color: var(--main-text-color);
   font-family: var(--main-font-family);

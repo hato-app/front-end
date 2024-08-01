@@ -3,6 +3,7 @@ import SVGEye from "./assets/Eye";
 import SVGComment from "./assets/Comment";
 import SVGLike from "./assets/Like";
 import SVGDislike from "./assets/Dislike";
+import { Data } from "./interfaces/data.interface";
 
 interface Props {
   data: Data | null;
@@ -10,14 +11,14 @@ interface Props {
   isItFront: boolean;
   server: string;
 }
-interface Data {
-  id: number;
-  user_id: number;
-  category_id: string;
-  front_text: string;
-  back_text: string;
-  views: number;
-}
+// interface Data {
+//   id: number;
+//   user_id: number;
+//   category_id: string;
+//   front_text: string;
+//   back_text: string;
+//   views: number;
+// }
 const Cards: React.FC<Props> = (props) => {
   const { data, server, setCardOnClick, isItFront } = props;
 
