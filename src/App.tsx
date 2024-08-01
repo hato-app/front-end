@@ -35,8 +35,9 @@ function App() {
       setData(dataID);
     } else {
       const getAllCategory = `${server}/category/${category}`;
-      const responseCategory = await fetch(getAllCategory);
-      const dataCategory = await responseCategory.json();
+      // const responseCategory = await fetch(getAllCategory);
+      // const dataCategory = await responseCategory.json();
+      const dataCategory = await (await fetch(getAllCategory)).json();
       const cards = dataCategory.map((card: []) => {
         return card;
       });
