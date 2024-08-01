@@ -23,9 +23,10 @@ function App() {
     // this gets every card
     if (category === 3) {
       const getAll = `${server}/cards`;
-      const response = await fetch(getAll);
-      const data = await response.json();
-      const dataLength: number = data.length;
+      const req = await (await fetch(getAll)).json();
+      // const response = await fetch(getAll);
+      // const data = await response.json();
+      const dataLength: number = req.length;
       const randNum: number = dataLength * Math.random();
 
       const getID = `${getAll}/${randNum}`;
