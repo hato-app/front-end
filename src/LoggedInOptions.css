@@ -1,3 +1,16 @@
 .loggedInOptions {
     display: flex;
 }
+.belowCard{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.cardCreation {
+    display: flex;
+    flex-direction: column;
+    border-style: dashed;
+    justify-content: center;
+    align-items: center;
+}
