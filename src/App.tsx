@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import "./App.css";
 import Cards from "./Cards";
-import LoggedInOptions from "./LoggedInOptions";
+// import LoggedInOptions from "./LoggedInOptions";
 
 const server = import.meta.env.VITE_SERVER;
+console.log(server);
 
 function App() {
   const [isFrontOrBack, setIsFrontOrBack] = useState(false);
@@ -25,10 +26,9 @@ function App() {
     if (category === 3) {
       const getAll = `${server}/cards`;
       const req = await (await fetch(getAll)).json();
-      // const response = await fetch(getAll);
-      // const data = await response.json();
       const dataLength: number = req.length;
-      const randNum: number = dataLength * Math.random();
+      const randNum: number = Math.floor(dataLength * Math.random());
+      console.log(randNum);
 
       const getID = `${getAll}/${randNum}`;
       const responseID = await fetch(getID);
@@ -36,21 +36,24 @@ function App() {
       setData(dataID);
     } else {
       const getAllCategory = `${server}/category/${category}`;
-      // const responseCategory = await fetch(getAllCategory);
-      // const dataCategory = await responseCategory.json();
       const dataCategory = await (await fetch(getAllCategory)).json();
       const cards = dataCategory.map((card: []) => {
         return card;
       });
       setData(cards[cards.length * Math.random()]);
     }
+    console.log(data);
   }
   function handleIsFrontOrBack() {
     setIsFrontOrBack(!isFrontOrBack);
   }
   return (
     <>
-      <Cards data={data} setCardOnClick={handleIsFrontOrBack} />
+      <Cards
+        data={data}
+        setCardOnClick={handleIsFrontOrBack}
+        isItFront={isFrontOrBack}
+      />
 
       <LoggedInOptions isLoggedIn={isLoggedIn} />
     </>
