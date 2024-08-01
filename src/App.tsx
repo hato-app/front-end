@@ -1,11 +1,22 @@
 import { useState } from 'react'
 import './App.css'
+import LoggedInOptions from './LoggedInOptions'
 
 function App() {
-  const [count, setCount] = useState(0)
+  //types
+  //useStates
 
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(true);
+
+  //useEffects
+
+  //handlers
   return (
-    <>
+    <> 
+  
+      <LoggedInOptions
+        isLoggedIn = {isLoggedIn}
+      />
     </>
   )
 }
