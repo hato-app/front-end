@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
 import "./App.css";
 import Cards from "./Cards";
-// import LoggedInOptions from "./LoggedInOptions";
+import LoggedInOptions from "./LoggedInOptions";
 
 const server = import.meta.env.VITE_SERVER;
 console.log(server);
 
 function App() {
   const [isFrontOrBack, setIsFrontOrBack] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [data, setData] = useState({
     id: 1,
     user_id: 1,
@@ -55,7 +56,9 @@ function App() {
         isItFront={isFrontOrBack}
       />
 
-      <LoggedInOptions isLoggedIn={isLoggedIn} />
+      <LoggedInOptions 
+        isLoggedIn={isLoggedIn} 
+      />
     </>
   );
 }
