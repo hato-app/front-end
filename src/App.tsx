@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import "./App.css";
 import Cards from "./Cards";
+import LoggedInOptions from "./LoggedInOptions";
 
 const server = import.meta.env.VITE_SERVER;
 
@@ -50,6 +51,8 @@ function App() {
   return (
     <>
       <Cards data={data} setCardOnClick={handleIsFrontOrBack} />
+
+      <LoggedInOptions isLoggedIn={isLoggedIn} />
     </>
   );
 }
