@@ -1,8 +1,8 @@
-import './LoggedInOptions.css'
-import { useState } from 'react';
-import { Card } from './interfaces/card.interface'
+import "./LoggedInOptions.css";
+import { useState } from "react";
+import { Card } from "./interfaces/card.interface";
 interface LoggedInProps {
-    isLoggedIn: boolean;
+  isLoggedIn: boolean;
 }
 const LoggedInOptions:React.FC<LoggedInProps> = ({isLoggedIn}) => {
     //useStates
