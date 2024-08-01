@@ -9,14 +9,7 @@ console.log(server);
 function App() {
   const [isFrontOrBack, setIsFrontOrBack] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
-  const [data, setData] = useState({
-    id: 1,
-    user_id: 1,
-    category_id: "jokes",
-    front_text: "What do you call a pony with a cough?",
-    back_text: "A little horse",
-    views: 0,
-  });
+  const [data, setData] = useState(null);
 
   useEffect(() => {
     handleGetCard();
@@ -28,11 +21,11 @@ function App() {
       const getAll = `${server}/cards`;
       const req = await (await fetch(getAll)).json();
       const dataLength: number = req.length;
-      const randNum: number = Math.floor(dataLength * Math.random());
-      console.log(randNum);
+      const randNum: number = Math.floor(dataLength * Math.random() + 1);
 
       const getID = `${getAll}/${randNum}`;
       const responseID = await fetch(getID);
+      console.log(responseID);
       const dataID = await responseID.json();
       setData(dataID);
     } else {
@@ -43,22 +36,22 @@ function App() {
       });
       setData(cards[cards.length * Math.random()]);
     }
-    console.log(data);
   }
   function handleIsFrontOrBack() {
     setIsFrontOrBack(!isFrontOrBack);
   }
   return (
     <>
-      <Cards
-        data={data}
-        setCardOnClick={handleIsFrontOrBack}
-        isItFront={isFrontOrBack}
-      />
+      {data && (
+        <Cards
+          data={data}
+          server={server}
+          setCardOnClick={handleIsFrontOrBack}
+          isItFront={isFrontOrBack}
+        />
+      )}
 
-      <LoggedInOptions 
-        isLoggedIn={isLoggedIn} 
-      />
+      <LoggedInOptions isLoggedIn={isLoggedIn} />
     </>
   );
 }
