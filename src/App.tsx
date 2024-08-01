@@ -2,17 +2,19 @@ import { useEffect, useState } from "react";
 import "./App.css";
 import Cards from "./Cards";
 import LoggedInOptions from "./LoggedInOptions";
+import { Card } from "./interfaces/card.interface";
+import { Data } from "./interfaces/data.interface";
 
 const server = import.meta.env.VITE_SERVER;
 console.log(server);
 
 function App() {
   const [isFrontOrBack, setIsFrontOrBack] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
-  const [data, setData] = useState({
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(true);
+  const [data, setData] = useState<Data | null>({
     id: 1,
     user_id: 1,
-    category_id: "jokes",
+    category_id: 1,
     front_text: "What do you call a pony with a cough?",
     back_text: "A little horse",
     views: 0,
@@ -48,6 +50,9 @@ function App() {
   function handleIsFrontOrBack() {
     setIsFrontOrBack(!isFrontOrBack);
   }
+  function handleSetDisplayedCard(card: Card | null) {
+    setData(card);
+  }
   return (
     <>
       <Cards
@@ -57,7 +62,8 @@ function App() {
       />
 
       <LoggedInOptions 
-        isLoggedIn={isLoggedIn} 
+        isLoggedIn={isLoggedIn}
+        handleSetDisplayedCard = {handleSetDisplayedCard}
       />
     </>
   );
