@@ -1,7 +1,13 @@
 import { MouseEventHandler } from "react";
+import SVGEye from "./assets/Eye";
+import SVGComment from "./assets/Comment";
+import SVGLike from "./assets/Like";
+import SVGDislike from "./assets/Dislike";
+
 interface Props {
   data: Data;
   setCardOnClick: MouseEventHandler;
+  isItFront: boolean;
 }
 interface Data {
   id: number;
@@ -12,11 +18,23 @@ interface Data {
   views: number;
 }
 const Cards: React.FC<Props> = (props) => {
-  const { data, setCardOnClick } = props;
+  const { data, setCardOnClick, isItFront } = props;
   return (
     <>
-      <div onClick={setCardOnClick}>
-        <h2></h2>
+      <div onClick={setCardOnClick} className="card">
+        {!isItFront ? (
+          <h2>{data.front_text}</h2>
+        ) : (
+          <h2>
+            {data.back_text}
+            <div>
+              <SVGEye />
+              <SVGLike />
+              <SVGDislike />
+              <SVGComment />
+            </div>
+          </h2>
+        )}
       </div>
     </>
   );

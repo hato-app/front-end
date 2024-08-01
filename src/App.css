@@ -1,4 +1,28 @@
-body{
+:root {
+  --main-background-color: #e5e8b6;
+  --secondary-background-color: #b4c4ae;
+  --secondary-text-color: #7d869c;
+  --additional-reserve-color: #a2abab;
+  --main-text-color: #586994;
+  --main-font-family: "Roboto Mono";
+  --xl-font-size: 45px;
+  --lg-font-size: 40px;
+  --std-font-size: 30px;
+  --sm-font-size: 20px;
+  --xs-font-size: 15px;
+}
+body {
   display: flex;
   flex-direction: column;
+  background-color: var(--main-background-color);
+  color: var(--main-text-color);
+  font-family: var(--main-font-family);
+}
+.card {
+  background-color: var(--secondary-background-color);
+  width: 1000px;
+  height: 600px;
+  font-size: var(--xl-font-size);
+  border-radius: 25px;
+  padding: 10px;
 }
