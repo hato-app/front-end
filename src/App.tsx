@@ -30,11 +30,11 @@ function App() {
       const getAll = `${server}/cards`;
       const req = await (await fetch(getAll)).json();
       const dataLength: number = req.length;
-      const randNum: number = Math.floor(dataLength * Math.random());
-      console.log(randNum);
+      const randNum: number = Math.floor(dataLength * Math.random() + 1);
 
       const getID = `${getAll}/${randNum}`;
       const responseID = await fetch(getID);
+      console.log(responseID);
       const dataID = await responseID.json();
       setData(dataID);
     } else {
@@ -45,7 +45,6 @@ function App() {
       });
       setData(cards[cards.length * Math.random()]);
     }
-    console.log(data);
   }
   function handleIsFrontOrBack() {
     setIsFrontOrBack(!isFrontOrBack);
@@ -55,15 +54,18 @@ function App() {
   }
   return (
     <>
-      <Cards
-        data={data}
-        setCardOnClick={handleIsFrontOrBack}
-        isItFront={isFrontOrBack}
-      />
+      {data && (
+        <Cards
+          data={data}
+          server={server}
+          setCardOnClick={handleIsFrontOrBack}
+          isItFront={isFrontOrBack}
+        />
+      )}
 
-      <LoggedInOptions 
+      <LoggedInOptions
         isLoggedIn={isLoggedIn}
-        handleSetDisplayedCard = {handleSetDisplayedCard}
+        handleSetDisplayedCard={handleSetDisplayedCard}
       />
     </>
   );
