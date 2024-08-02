@@ -7,7 +7,7 @@ import { Data } from "./interfaces/data.interface";
 
 interface Props {
   data: Data | null;
-  setCardOnClick: MouseEventHandler;
+  setCardOnClick: (setCardState?:boolean) => void;
   isItFront: boolean;
   server: string;
 }
@@ -37,7 +37,7 @@ const Cards: React.FC<Props> = (props) => {
 
   return (
     <>
-      <div onClick={setCardOnClick} className="card">
+      <div onClick={() => setCardOnClick()} className="card">
         {!isItFront ? (
           <h2>{data?.front_text}</h2>
         ) : (

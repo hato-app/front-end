@@ -41,18 +41,17 @@ function App() {
       setData(cards[cards.length * Math.random()]);
     }
   }
-  function handleIsFrontOrBack() {
+  function handleIsFrontOrBack(setCardState?:boolean) {
+    if(setCardState === undefined)
     setIsFrontOrBack(!isFrontOrBack);
+    else setIsFrontOrBack(setCardState)
   }
   function handleSetDisplayedCard(card: Card | null) {
     setData(card);
   }
   return (
     <>
-      <LoggedInOptions
-        isLoggedIn={isLoggedIn}
-        handleSetDisplayedCard={handleSetDisplayedCard}
-      />
+
       {data && (
         <Cards
           data={data}
@@ -61,6 +60,12 @@ function App() {
           isItFront={isFrontOrBack}
         />
       )}
+
+      <LoggedInOptions
+        isLoggedIn={isLoggedIn}
+        handleSetDisplayedCard={handleSetDisplayedCard}
+        handleIsFrontOrBack={handleIsFrontOrBack}
+      />
     </>
   );
 }
