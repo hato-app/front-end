@@ -6,14 +6,17 @@ import { Data } from "./interfaces/data.interface";
 interface LoggedInProps {
   isLoggedIn: boolean;
   handleSetDisplayedCard: (card:Card | null) => void;
+  handleIsFrontOrBack: () => void;
 }
 
-const LoggedInOptions:React.FC<LoggedInProps> = ({isLoggedIn, handleSetDisplayedCard}) => {
+const LoggedInOptions:React.FC<LoggedInProps> = ({isLoggedIn, handleSetDisplayedCard, handleIsFrontOrBack}) => {
     //useStates
     const [cardFront, setCardFront] = useState<string>('');
     const [cardBack, setCardBack] = useState<string>('');
     const [createdCard, setCreatedCard] = useState<Card | null>(null);
-    const [isMakingCard, setIsMakingCard] = useState<boolean>(false)
+    const [isMakingCard, setIsMakingCard] = useState<boolean>(false);
+    const [isChoosingType, setIsChoosingType] = useState<boolean>(false);
+    const [chosenCategory, setChosenCategory] = useState<number | null>(null);
     //useEffects
     useEffect(() => {
         handleSetDisplayedCard(createdCard);
@@ -35,6 +38,17 @@ const LoggedInOptions:React.FC<LoggedInProps> = ({isLoggedIn, handleSetDisplayed
         const created = (await res.json());
         setCreatedCard(created[0]);
     }
+    async function getNewCard(event: React.MouseEvent<HTMLButtonElement>) {
+        const setWantedCategory = await handleSetChosenCategory(event);
+        const res = await fetch(import.meta.env.VITE_SERVER+"/cards/category/" + chosenCategory)
+        const readable: Card[] = await res.json();
+        const resLength: number = readable.length;
+        const randomIndex: number = Math.floor(Math.random()*resLength);
+        const receivedCard: Card = readable[randomIndex];
+        setCreatedCard(receivedCard);
+        handleIsChoosingType();
+        handleIsFrontOrBack();
+    }
 
     function handleMakingCard() {
         !isMakingCard ? setIsMakingCard(true) : setIsMakingCard(false);
@@ -51,6 +65,14 @@ const LoggedInOptions:React.FC<LoggedInProps> = ({isLoggedIn, handleSetDisplayed
         let sendReq = await createCard();
         handleMakingCard();
     }
+    function handleIsChoosingType() {
+        !isChoosingType ? setIsChoosingType(true) : setIsChoosingType(false);
+    }
+    async function handleSetChosenCategory(event: React.MouseEvent<HTMLButtonElement>) {
+        const buttonTarget = await event.target as HTMLButtonElement;
+        const final = await setChosenCategory(Number(buttonTarget.id))
+        console.log(chosenCategory)
+    }
 
 
     return <div className='belowCard'>
@@ -58,7 +80,16 @@ const LoggedInOptions:React.FC<LoggedInProps> = ({isLoggedIn, handleSetDisplayed
             {!isMakingCard ? (
                 <div className='loggedInButtons'>
                     <button onClick={handleMakingCard} disabled={!isLoggedIn} >Create a card!</button>
-                    <button>Get another random message!</button>
+                    <button onClick={handleIsChoosingType}>Get another random message!</button>
+                    {!isChoosingType ? (
+                        <span/>
+                    ) : (
+                        <div className="typeButtons">
+                            <button onClick={handleSetChosenCategory} id="1">Jokes</button>
+                            <button>Trivia</button>
+                            <button>Whatever</button>
+                        </div>
+                    )}
                  </div>
                 ) : (
                 <div className='cardCreation'>

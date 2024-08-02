@@ -66,6 +66,7 @@ function App() {
       <LoggedInOptions
         isLoggedIn={isLoggedIn}
         handleSetDisplayedCard={handleSetDisplayedCard}
+        handleIsFrontOrBack={handleIsFrontOrBack}
       />
     </>
   );
