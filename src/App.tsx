@@ -41,15 +41,17 @@ function App() {
       setData(cards[cards.length * Math.random()]);
     }
   }
-  function handleIsFrontOrBack() {
+  function handleIsFrontOrBack(setCardState?:boolean) {
+    if(setCardState === undefined)
     setIsFrontOrBack(!isFrontOrBack);
+    else setIsFrontOrBack(setCardState)
   }
   function handleSetDisplayedCard(card: Card | null) {
     setData(card);
   }
   return (
     <>
-    
+
       {data && (
         <Cards
           data={data}
