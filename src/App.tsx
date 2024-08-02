@@ -27,16 +27,11 @@ function App() {
   async function handleGetCard(category = 3) {
     // this gets every card
     if (category === 3) {
-      const getAll = `${server}/cards`;
-      const req = await (await fetch(getAll)).json();
-      const dataLength: number = req.length;
-      const randNum: number = Math.floor(dataLength * Math.random() + 1);
-
-      const getID = `${getAll}/${randNum}`;
-      const responseID = await fetch(getID);
-      console.log(responseID);
-      const dataID = await responseID.json();
-      setData(dataID);
+      const getRandom = `${server}/cards/random`;
+      console.log(getRandom);
+      const req = await (await fetch(getRandom)).json();
+      console.log(req);
+      setData(req[0]);
     } else {
       const getAllCategory = `${server}/category/${category}`;
       const dataCategory = await (await fetch(getAllCategory)).json();
@@ -54,6 +49,7 @@ function App() {
   }
   return (
     <>
+    
       {data && (
         <Cards
           data={data}
