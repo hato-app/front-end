@@ -21,9 +21,9 @@ const Cards: React.FC<Props> = (props) => {
   const [likesNum, setLikesNum] = useState(0);
   const [dislikesNum, setDislikesNum] = useState(0);
   const [commentsList, setCommentsList] = useState([]);
+  const [isClicked, setIsClicked] = useState(false);
 
   async function handleGetLikesAndDislikes() {
-    console.log(data);
     const likesReq = await (
       await fetch(`${server}/likes/cards/${data?.id}`)
     ).json();
@@ -33,7 +33,49 @@ const Cards: React.FC<Props> = (props) => {
     setLikesNum(likesReq.length);
     setDislikesNum(dislikesReq.length);
   }
-  // async function handleGetComments
+  async function handleCreateLikes() {
+    console.log(isClicked);
+    handleSetIsClicked();
+    if (!isClicked) {
+      await fetch(`${server}/likes`, {
+        headers: { "Content-Type": "application/json" },
+        method: "POST",
+        body: JSON.stringify({
+          user_id: 1,
+          card_id: data?.id,
+        }),
+      });
+    } else {
+      await fetch(`${server}/likes/cards/${data?.id}`, {
+        headers: { "Content-Type": "application/json" },
+        method: "DELETE",
+      });
+    }
+    handleGetLikesAndDislikes();
+  }
+  async function handleCreateDislikes() {
+    console.log(isClicked);
+    handleSetIsClicked();
+    if (!isClicked) {
+      await fetch(`${server}/dislikes`, {
+        headers: { "Content-Type": "application/json" },
+        method: "POST",
+        body: JSON.stringify({
+          user_id: 1,
+          card_id: data?.id,
+        }),
+      });
+    } else {
+      await fetch(`${server}/dislikes/cards/${data?.id}`, {
+        headers: { "Content-Type": "application/json" },
+        method: "DELETE",
+      });
+    }
+    handleGetLikesAndDislikes();
+  }
+  function handleSetIsClicked() {
+    setIsClicked(!isClicked);
+  }
 
   return (
     <>
@@ -43,14 +85,8 @@ const Cards: React.FC<Props> = (props) => {
         ) : (
           <>
             <h2>{data?.back_text}</h2>
-            <SVGComment className="svg" />
+
             <div className="svg-container">
-              <div className="likes-container">
-                <SVGLike className="svg" />
-                {likesNum}
-                <SVGDislike className="svg" />
-                {dislikesNum}
-              </div>
               <div className="views">
                 {data?.views}
                 <SVGEye className="svg" />
@@ -59,6 +95,17 @@ const Cards: React.FC<Props> = (props) => {
           </>
         )}
       </div>
+      {isItFront && (
+        <>
+          <SVGComment className="svg" />
+          <div className="likes-container">
+            <SVGLike className="svg" onClick={handleCreateLikes} />
+            {likesNum}
+            <SVGDislike className="svg" onClick={handleCreateDislikes} />
+            {dislikesNum}
+          </div>
+        </>
+      )}
     </>
   );
 };

@@ -6,7 +6,7 @@ import { Card } from "./interfaces/card.interface";
 import { Data } from "./interfaces/data.interface";
 
 const server = import.meta.env.VITE_SERVER;
-console.log(server);
+// console.log(server);
 
 function App() {
   const [isFrontOrBack, setIsFrontOrBack] = useState(false);
@@ -28,17 +28,12 @@ function App() {
     // this gets every card
     if (category === 3) {
       const getRandom = `${server}/cards/random`;
-      console.log(getRandom);
       const req = await (await fetch(getRandom)).json();
-      console.log(req);
       setData(req[0]);
     } else {
-      const getAllCategory = `${server}/category/${category}`;
+      const getAllCategory = `${server}/cards/random/category/${category}`;
       const dataCategory = await (await fetch(getAllCategory)).json();
-      const cards = dataCategory.map((card: []) => {
-        return card;
-      });
-      setData(cards[cards.length * Math.random()]);
+      setData(dataCategory[0]);
     }
   }
   function handleIsFrontOrBack(setCardState?:boolean) {
