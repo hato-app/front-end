@@ -36,7 +36,7 @@ const Cards: React.FC<Props> = (props) => {
   async function handleCreateLikes() {
     console.log(isClicked);
     handleSetIsClicked();
-    if (isClicked) {
+    if (!isClicked) {
       await fetch(`${server}/likes`, {
         headers: { "Content-Type": "application/json" },
         method: "POST",
@@ -48,7 +48,7 @@ const Cards: React.FC<Props> = (props) => {
     } else {
       await fetch(`${server}/likes/cards/${data?.id}`, {
         headers: { "Content-Type": "application/json" },
-        method: "POST",
+        method: "DELETE",
       });
     }
     handleGetLikesAndDislikes();
@@ -56,7 +56,7 @@ const Cards: React.FC<Props> = (props) => {
   async function handleCreateDislikes() {
     console.log(isClicked);
     handleSetIsClicked();
-    if (isClicked) {
+    if (!isClicked) {
       await fetch(`${server}/dislikes`, {
         headers: { "Content-Type": "application/json" },
         method: "POST",
@@ -68,7 +68,7 @@ const Cards: React.FC<Props> = (props) => {
     } else {
       await fetch(`${server}/dislikes/cards/${data?.id}`, {
         headers: { "Content-Type": "application/json" },
-        method: "POST",
+        method: "DELETE",
       });
     }
     handleGetLikesAndDislikes();
@@ -87,12 +87,6 @@ const Cards: React.FC<Props> = (props) => {
             <h2>{data?.back_text}</h2>
 
             <div className="svg-container">
-              <div className="likes-container">
-                <SVGLike className="svg" onClick={handleCreateLikes} />
-                {likesNum}
-                <SVGDislike className="svg" onClick={handleCreateDislikes} />
-                {dislikesNum}
-              </div>
               <div className="views">
                 {data?.views}
                 <SVGEye className="svg" />
@@ -102,9 +96,15 @@ const Cards: React.FC<Props> = (props) => {
         )}
       </div>
       {isItFront && (
-        <div>
+        <>
           <SVGComment className="svg" />
-        </div>
+          <div className="likes-container">
+            <SVGLike className="svg" onClick={handleCreateLikes} />
+            {likesNum}
+            <SVGDislike className="svg" onClick={handleCreateDislikes} />
+            {dislikesNum}
+          </div>
+        </>
       )}
     </>
   );
