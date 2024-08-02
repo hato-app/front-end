@@ -11,14 +11,6 @@ interface Props {
   isItFront: boolean;
   server: string;
 }
-// interface Data {
-//   id: number;
-//   user_id: number;
-//   category_id: string;
-//   front_text: string;
-//   back_text: string;
-//   views: number;
-// }
 const Cards: React.FC<Props> = (props) => {
   const { data, server, setCardOnClick, isItFront } = props;
 
@@ -41,6 +33,7 @@ const Cards: React.FC<Props> = (props) => {
     setLikesNum(likesReq.length);
     setDislikesNum(dislikesReq.length);
   }
+  // async function handleGetComments
 
   return (
     <>
