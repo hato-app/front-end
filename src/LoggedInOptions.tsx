@@ -9,9 +9,11 @@ interface LoggedInProps {
   isLoggedIn: boolean;
   handleSetDisplayedCard: (card:Card | null) => void;
   handleIsFrontOrBack: (setCardState?:boolean) => void;
+  data: Data | null;
+  isFrontOrBack: boolean;
 }
 
-const LoggedInOptions:React.FC<LoggedInProps> = ({isLoggedIn, handleSetDisplayedCard, handleIsFrontOrBack}) => {
+const LoggedInOptions:React.FC<LoggedInProps> = ({isLoggedIn, handleSetDisplayedCard, handleIsFrontOrBack, data, isFrontOrBack}) => {
     //useStates
     const [cardFront, setCardFront] = useState<string>('');
     const [cardBack, setCardBack] = useState<string>('');
@@ -20,7 +22,7 @@ const LoggedInOptions:React.FC<LoggedInProps> = ({isLoggedIn, handleSetDisplayed
     const [newCard, setNewCard] = useState<Card | null>(null);
     const [isMakingCard, setIsMakingCard] = useState<boolean>(false);
     const [isChoosingType, setIsChoosingType] = useState<boolean>(false);
-    const [chosenCategory, setChosenCategory] = useState<number | null>(null);
+
     //useEffects
     useEffect(() => {
         handleSetDisplayedCard(createdCard);
@@ -49,7 +51,7 @@ const LoggedInOptions:React.FC<LoggedInProps> = ({isLoggedIn, handleSetDisplayed
         setCreatedCard(created[0]);
     }
     async function getNewCard(id:number) {
-        const res = await fetch(import.meta.env.VITE_SERVER+"/cards/category/" + id)
+        const res = await fetch(import.meta.env.VITE_SERVER+"/cards/categories/" + id)
         const readable: Card[] = await res.json();
         const resLength: number = readable.length;
         const randomIndex: number = Math.floor(Math.random()*resLength);
@@ -93,7 +95,10 @@ const LoggedInOptions:React.FC<LoggedInProps> = ({isLoggedIn, handleSetDisplayed
 
     return <div className='belowCard'>
         <div>
-            <Comments/>
+            <Comments
+            data = {data}
+            isFrontOrBack = {isFrontOrBack}
+            />
             {!isMakingCard ? (
                 <div className='loggedInButtons'>
                     <button onClick={handleMakingCard} disabled={!isLoggedIn} >Create a card!</button>

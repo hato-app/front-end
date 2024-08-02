@@ -60,6 +60,8 @@ function App() {
         isLoggedIn={isLoggedIn}
         handleSetDisplayedCard={handleSetDisplayedCard}
         handleIsFrontOrBack={handleIsFrontOrBack}
+        data={data}
+        isFrontOrBack={isFrontOrBack}
       />
     </>
   );
