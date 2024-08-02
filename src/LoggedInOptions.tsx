@@ -119,10 +119,9 @@ const LoggedInOptions:React.FC<LoggedInProps> = ({isLoggedIn, handleSetDisplayed
                         {whatCategory ? (
                             <h3>Your current card is classified as {whatCategory} card</h3>
                         ) : (<span/> )}
-                        
                         <button onClick={() => handleSelectingCreateCategory(1)}>Joke</button>
                         <button onClick={() => handleSelectingCreateCategory(2)}>Trivia</button>
-                        <button onClick={() => handleSelectingCreateCategory(3)}>Whatever</button>
+                        <button onClick={() => handleSelectingCreateCategory(3)}>None</button>
                     </div>
                     <div className='creationButtons'>
                         <button onClick={handleSubmitButton}>submit</button>
