@@ -2,7 +2,9 @@ import "./LoggedInOptions.css";
 import { useEffect, useState } from "react";
 import { Card } from "./interfaces/card.interface";
 import { Data } from "./interfaces/data.interface";
+import Comments from "./Comments";
 
+let whatCategory: string|null = null;
 interface LoggedInProps {
   isLoggedIn: boolean;
   handleSetDisplayedCard: (card:Card | null) => void;
@@ -13,7 +15,9 @@ const LoggedInOptions:React.FC<LoggedInProps> = ({isLoggedIn, handleSetDisplayed
     //useStates
     const [cardFront, setCardFront] = useState<string>('');
     const [cardBack, setCardBack] = useState<string>('');
+    const [createCardCategory, setCreateCardCategory] = useState<number>(3);
     const [createdCard, setCreatedCard] = useState<Card | null>(null);
+    const [newCard, setNewCard] = useState<Card | null>(null);
     const [isMakingCard, setIsMakingCard] = useState<boolean>(false);
     const [isChoosingType, setIsChoosingType] = useState<boolean>(false);
     const [chosenCategory, setChosenCategory] = useState<number | null>(null);
@@ -21,6 +25,11 @@ const LoggedInOptions:React.FC<LoggedInProps> = ({isLoggedIn, handleSetDisplayed
     useEffect(() => {
         handleSetDisplayedCard(createdCard);
     }, [createdCard])
+
+    useEffect(() => {
+        handleSetDisplayedCard(newCard);
+    }, [newCard])
+    
 
     //handleFunctions 
     async function createCard() {  
@@ -33,6 +42,7 @@ const LoggedInOptions:React.FC<LoggedInProps> = ({isLoggedIn, handleSetDisplayed
             body: JSON.stringify({
                 front_text: cardFront,
                 back_text: cardBack,
+                category_id: createCardCategory,
             }),
         });
         const created = (await res.json());
@@ -44,7 +54,7 @@ const LoggedInOptions:React.FC<LoggedInProps> = ({isLoggedIn, handleSetDisplayed
         const resLength: number = readable.length;
         const randomIndex: number = Math.floor(Math.random()*resLength);
         const receivedCard: Card = readable[randomIndex];
-        setCreatedCard(receivedCard);
+        setNewCard(receivedCard);
         handleIsChoosingType();
         handleIsFrontOrBack(false);
     }
@@ -67,11 +77,23 @@ const LoggedInOptions:React.FC<LoggedInProps> = ({isLoggedIn, handleSetDisplayed
     function handleIsChoosingType() {
         !isChoosingType ? setIsChoosingType(true) : setIsChoosingType(false);
     }
-   
+    
+    
+    function handleSelectingCreateCategory(id: number) {
+        setCreateCardCategory(id);
+        if(id === 1){
+            whatCategory = "JOKE";
+        } else if(id === 2){
+            whatCategory = "TRIVIA";
+        } else {
+           whatCategory = "WHATEVER";
+        }
+    }
 
 
     return <div className='belowCard'>
         <div>
+            <Comments/>
             {!isMakingCard ? (
                 <div className='loggedInButtons'>
                     <button onClick={handleMakingCard} disabled={!isLoggedIn} >Create a card!</button>
@@ -92,6 +114,15 @@ const LoggedInOptions:React.FC<LoggedInProps> = ({isLoggedIn, handleSetDisplayed
                         <textarea rows={5}cols={33} onChange={handleCardFront} placeholder="FRONT"  />
                         <textarea rows={5}cols={33} onChange={handleCardBack} placeholder="BACK"  />
                     </div>
+                  
+                    <div className="typeInput">
+                        {whatCategory ? (
+                            <h3>Your current card is classified as {whatCategory} card</h3>
+                        ) : (<span/> )}
+                        <button onClick={() => handleSelectingCreateCategory(1)}>Joke</button>
+                        <button onClick={() => handleSelectingCreateCategory(2)}>Trivia</button>
+                        <button onClick={() => handleSelectingCreateCategory(3)}>None</button>
+                    </div>
                     <div className='creationButtons'>
                         <button onClick={handleSubmitButton}>submit</button>
                         <button onClick={handleMakingCard}>cancel</button>
@@ -99,7 +130,6 @@ const LoggedInOptions:React.FC<LoggedInProps> = ({isLoggedIn, handleSetDisplayed
                 </div>
             )}
         </div>
-        {/* <Comments/> */}
       
 
 
