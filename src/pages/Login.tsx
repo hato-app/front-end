@@ -1,46 +1,50 @@
-import "../components/styles/Login.css";
-import { useState } from "react";
-import { useAppContext, useAppDispatchContext } from "../AppContext";
+import { useRef } from "react";
+import UserLogin from "../interfaces/UserLoginType";
+import { useNavigate } from "react-router-dom";
+import { useAppDispatchContext } from "../AppContext";
+import * as sessionApi from "../api/session";
 
-const Login: React.FC = () => {
-  const useAppState = useAppContext();
+const Login = () => {
+  const navigate = useNavigate();
   const setAppState = useAppDispatchContext();
 
-  const [username, setUsername] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
+  const inputUserNameRef = useRef<HTMLInputElement>(null);
+  const inputPasswordRef = useRef<HTMLInputElement>(null);
 
-  const handleLogin = () => {
-    setAppState({ ...useAppState, isLoggedIn: true, username });
+  const handleLogin = async () => {
+    const inputUserName = inputUserNameRef.current;
+    const inputPassword = inputPasswordRef.current;
+    if (inputUserName && inputPassword) {
+      const inputUserNameValue = inputUserName.value.trim();
+      const inputPasswordValue = inputPassword.value;
+
+      if (inputUserNameValue !== "") {
+        if (inputPasswordValue !== "") {
+          const userLogin: UserLogin = {
+            username: inputUserNameValue,
+            password: inputPasswordValue,
+          };
+          const user = await sessionApi.login(userLogin);
+          if (user) {
+            setAppState({ user });
+            navigate("/");
+          }
+        }
+      }
+    }
   };
-  
+
   return (
     <section className="login">
-      <h1>Login</h1>
-      <div className="login-inputs">
-      <label>
-      Username:
-      <input
-        type = "text"
-        value={username}
-        onChange={(event) => setUsername(event.target.value)}
-        placeholder="Enter your username"
-      />
-      </label>
-      <label>
-      Password:
-      <input
-        type = "password"
-        value={password}
-        onChange={(event) => setPassword(event.target.value)}
-        placeholder="Enter your password"
-      />
-      </label>
-      </div>
-      <button onClick={handleLogin}>
-        Login
-      </button>
+      <form>
+        <input type="text" id="username" ref={inputUserNameRef} />
+        <input type="password" id="password" ref={inputPasswordRef} />
+        <button type="button" onClick={handleLogin}>
+          Login
+        </button>
+      </form>
     </section>
   );
-
 };
+
 export default Login;

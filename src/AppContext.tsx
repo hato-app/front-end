@@ -8,13 +8,10 @@ import {
   useState,
 } from "react";
 
-import AppState from "./interfaces/app-state.interface";
+import AppState from "./interfaces/AppStateType";
+import * as sessionApi from "./api/session";
 
-let initialAppState: AppState = { isLoggedIn: false };
-const storage = localStorage.getItem("appState");
-
-if (!storage) localStorage.setItem("appState", JSON.stringify(initialAppState));
-else initialAppState = JSON.parse(storage);
+const initialAppState: AppState = {};
 
 const AppContext = createContext(initialAppState);
 const AppDispatchContext = createContext<Dispatch<SetStateAction<AppState>>>(
@@ -25,9 +22,21 @@ const AppProvider = ({ children }: { children: ReactNode }) => {
   const [useAppState, setAppState] = useState(initialAppState);
 
   useEffect(() => {
-    console.log("Im here");
+    checkSession();
+  }, []);
+
+  useEffect(() => {
     localStorage.setItem("appState", JSON.stringify(useAppState));
   }, [useAppState]);
+
+  const checkSession = async () => {
+    const user = await sessionApi.checkSession();
+    if (user) {
+      setAppState({ user });
+    } else {
+      setAppState({});
+    }
+  };
 
   return (
     <AppContext.Provider value={useAppState}>
