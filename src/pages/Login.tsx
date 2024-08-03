@@ -2,16 +2,17 @@ import "../components/styles/Login.css";
 import { useState } from "react";
 import { useAppContext, useAppDispatchContext } from "../AppContext";
 
-const Login = () => {
+const Login: React.FC = () => {
   const useAppState = useAppContext();
   const setAppState = useAppDispatchContext();
 
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
 
   const handleLogin = () => {
     setAppState({ ...useAppState, isLoggedIn: true, username });
   };
+  
   return (
     <section className="login">
       <h1>Login</h1>
