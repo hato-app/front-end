@@ -67,7 +67,7 @@ const CreateCardWindow: React.FC<Props> = (props) => {
     <div className="creating-card-window">
       {useCard ? (
         <div className="creating-card-window__created-Card">
-          <Card card={useCard} />
+          <Card card={useCard} active={false} updateCallBack={() => {}}/>
         </div>
       ) : (
         <div className="creating-card-window__card-form">

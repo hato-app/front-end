@@ -9,4 +9,5 @@ export default interface CardType extends CardUpdateType {
   front_text: string;
   back_text: string;
   views: number;
+  text: string;
 }

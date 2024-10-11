@@ -1,0 +1,33 @@
+.card__delete_container_choices {
+	padding-top: 20px;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	gap: 50px;
+}
+
+.card__delete_container {
+	justify-content: center;
+	align-items: center;
+	width: 300px;
+	min-width: 450px;
+	height: 200px;
+	background-color: var(--inverted-main-text-color);
+	box-shadow: 3px 3px 3px var(--box-shadow-color);
+	border: 1px solid var(--supplimental-background-color);
+	font-weight: var(--heavy-font-weight);
+	font-family: var(--main-text-style);
+}
+
+.card__delete_container h1 {
+	text-align: center;
+
+	color: var(--main-text-color);
+}
+
+.card__delete_container .card__delete_button {
+	background-color: var(--main-text-color);
+	color: black;
+	font-weight: var(--heavy-font-weight);
+	font-family: var(--main-text-style);
+}

@@ -69,7 +69,7 @@ const Index = () => {
         </div>
       </div>
       {useCurrentCard ? (
-        <Card card={useCurrentCard}></Card>
+        <Card card={useCurrentCard} active={true} updateCallBack={() => {}}></Card>
       ) : (
         <div className="loading-svg">
           <HatoSVG></HatoSVG>

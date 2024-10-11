@@ -1,4 +1,5 @@
 .card-comment {
+  position: relative;
   border: 1px solid rgba(0, 0, 0, 1);
   padding: 15px;
   box-shadow: 0 0 5px rgba(0, 0, 0, 1);
@@ -6,6 +7,7 @@
 }
 
 .card-comment__text {
+  margin-top: 0.5rem;
   color: var(--inverted-main-text-color);
   font-size: large;
 }
@@ -13,4 +15,21 @@
 .card-comment__created_at {
   font-size: small;
   text-align: right;
+}
+
+.card-report-flag {
+  position: absolute;
+  right: 0;
+  top: 0;
+  padding: 2px;
+  border-radius: 3px;
+  margin: 5px 5px 0 0;
+  border-style: none;
+  cursor: pointer;
+  background-color: #c0e7d9;
+}
+
+.card-report-flag:hover {
+  cursor: pointer;
+  background-color: rgb(207, 250, 250);
 }
